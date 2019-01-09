@@ -9,6 +9,11 @@ import connection from '../components/helpers/data/connection';
 
 import Auth from '../components/pages/Auth/Auth';
 import Home from '../components/pages/Home/Home';
+import Friends from '../components/pages/Friends/Friends';
+import Articles from '../components/pages/Articles/Articles';
+import Events from '../components/pages/Events/Events';
+import Weather from '../components/pages/Weather/Weather';
+import Messages from '../components/pages/Messages/Messages';
 import MyNavBar from '../components/MyNavBar/MyNavBar';
 import './App.scss';
 import authRequests from '../components/helpers/data/authRequests';
@@ -68,12 +73,19 @@ class App extends React.Component {
         <BrowserRouter>
           <React.Fragment>
             <MyNavBar isAuthed={authed} logoutClickEvent={logoutClickEvent} />
-            <div className='row'>
-              <Switch>
-                <PrivateRoute path='/' exact component={Home} authed={this.state.authed} />
-                <PrivateRoute path='/home' component={Home} authed={this.state.authed} />
-                <PublicRoute path='/auth' component={Auth} authed={this.state.authed} />
-              </Switch>
+            <div className='container'>
+              <div className='row'>
+                <Switch>
+                  <PrivateRoute path='/' exact component={Home} authed={this.state.authed} />
+                  <PrivateRoute path='/home' component={Home} authed={this.state.authed} />
+                  <PrivateRoute path='/friends' component={Friends} authed={this.state.authed} />
+                  <PrivateRoute path='/articles' component={Articles} authed={this.state.authed} />
+                  <PrivateRoute path='/weather' component={Weather} authed={this.state.authed} />
+                  <PrivateRoute path='/events' component={Events} authed={this.state.authed} />
+                  <PrivateRoute path='/messages' component={Messages} authed={this.state.authed} />
+                  <PublicRoute path='/auth' component={Auth} authed={this.state.authed} />
+                </Switch>
+              </div>
             </div>
           </React.Fragment>
         </BrowserRouter>
