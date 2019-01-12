@@ -41,7 +41,7 @@ class Home extends React.Component {
               <p className="card-text">Upcoming Events</p>
             </div>
           </div>
-          <div className="card border-dark bg-warning">
+          <div className="card bg-info">
             <div className="card-body text-center">
               <h4 className="card-title"><i className="fas fa-tree fa-7x"></i></h4>
               <h6 className="card-subtitle mb-2 text-muted">...</h6>
