@@ -5,11 +5,12 @@ import './EventItem.scss';
 
 class EventItem extends React.Component {
   static propTypes = {
-    event: eventShape,
+    event: eventShape.eventShape,
   }
 
   render() {
     const { event } = this.props;
+    console.log(event);
     return (
       <div className="eventItem text-center mx-auto">
         <h3>{event.event}</h3>
