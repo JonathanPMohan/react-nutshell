@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { Button } from 'reactstrap';
 import './Auth.scss';
 import authRequests from '../../helpers/data/authRequests';
 
@@ -16,9 +16,9 @@ class Auth extends React.Component {
   render() {
     return (
       <div className='Auth'>
-        <button className='btn btn-danger' onClick={this.authenticateUser}>
+        <Button className='btn btn-danger' onClick={this.authenticateUser}>
           <img src={googleButton} alt="google login button" />
-        </button>
+        </Button>
       </div>
     );
   }

@@ -15,6 +15,7 @@ import Events from '../components/pages/Events/Events';
 import Weather from '../components/pages/Weather/Weather';
 import Messages from '../components/pages/Messages/Messages';
 import MyNavBar from '../components/MyNavBar/MyNavBar';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.scss';
 import authRequests from '../components/helpers/data/authRequests';
 
@@ -36,6 +37,7 @@ const PrivateRoute = ({ component: Component, authed, ...rest }) => {
 class App extends React.Component {
   state = {
     authed: false,
+    currentUid: '',
     pendingUser: true,
   }
 
@@ -43,15 +45,10 @@ class App extends React.Component {
     connection();
     this.removeListener = firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        this.setState({
-          authed: true,
-          pendingUser: false,
-        });
+        const currentUid = authRequests.getCurrentUid();
+        this.setState({ authed: true, currentUid, pendingUser: false });
       } else {
-        this.setState({
-          authed: false,
-          pendingUser: false,
-        });
+        this.setState({ authed: false, currentUid: '', pendingUser: false });
       }
     });
   }
@@ -60,22 +57,25 @@ class App extends React.Component {
     this.removeListener();
   }
 
-  isAuthenticated = () => {
-    this.setState({ authed: true });
+  logoutClickEvent = () => {
+    authRequests.logoutUser();
+    this.setState({ authed: false, currentUid: '' });
   }
 
   render() {
-    const { authed } = this.state;
-    const logoutClickEvent = () => {
-      authRequests.logoutUser();
-      this.setState({ authed: false });
-    };
+    const {
+      authed,
+      pendingUser,
+    } = this.state;
+    if (pendingUser) {
+      return null;
+    }
 
     return (
       <div className="App">
         <BrowserRouter>
           <React.Fragment>
-            <MyNavBar isAuthed={authed} logoutClickEvent={logoutClickEvent} />
+            <MyNavBar isAuthed={authed} logoutClickEvent={this.logoutClickEvent} />
             <div className='container'>
               <div className='row'>
                 <Switch>
