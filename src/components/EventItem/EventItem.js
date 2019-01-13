@@ -10,7 +10,6 @@ class EventItem extends React.Component {
 
   render() {
     const { event } = this.props;
-    console.log(event);
     return (
       <div className="eventItem text-center mx-auto">
         <h3>{event.event}</h3>
