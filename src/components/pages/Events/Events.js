@@ -37,12 +37,28 @@ class Events extends React.Component {
       .catch(error => console.error('error on postRequest, error'));
   }
 
+  deleteEvent = (eventId) => {
+    eventRequests.deleteEvent(eventId)
+      .then(() => {
+        const currentUid = authRequests.getCurrentUid();
+        smashRequests.getEventsFromMeAndFriends(currentUid)
+          .then((events) => {
+            this.setState({ events });
+          })
+          .catch((error) => {
+            console.error('error on getEventsFromMeAndFriends', error);
+          });
+      })
+      .catch(error => console.error('error on deleteEvent', error));
+  }
+
   render() {
     const { events } = this.state;
     const eventItemComponents = events.map(event => (
       <EventItem
         event={event}
         key={event.id}
+        deleteSingleEvent={this.deleteEvent}
       />
     ));
     return (
