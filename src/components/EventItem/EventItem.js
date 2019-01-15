@@ -17,6 +17,18 @@ class EventItem extends React.Component {
     deleteSingleEvent(event.id);
   }
 
+  editEvent = (e) => {
+    e.preventDefault();
+    const { passEventToEdit, event } = this.props;
+    passEventToEdit(event.id);
+  }
+
+  listingClick = (e) => {
+    e.stopPropagation();
+    const { event, onSelect } = this.props;
+    onSelect(event.id);
+  }
+
   render() {
     const { event } = this.props;
     const uid = authRequests.getCurrentUid();
@@ -26,6 +38,9 @@ class EventItem extends React.Component {
         return (
           <div>
             <span className="col">
+              <button className="btn btn-default" onClick={this.editEvent}>
+                <i className="fas fa-pencil-alt fa-2x"></i>
+              </button>
               <button className="btn btn-default" onClick={this.deleteEvent}>
                 <i className="fas fa-trash-alt fa-2x"></i>
               </button>
@@ -37,7 +52,7 @@ class EventItem extends React.Component {
     };
 
     return (
-      <div className="eventItem text-center mx-auto">
+      <div className="eventItem text-center mx-auto" onClick={this.eventClick}>
         <h3>{event.event}</h3>
         <h5>{event.startDate}</h5>
         <h5>{event.location}</h5>

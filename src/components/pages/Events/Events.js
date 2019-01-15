@@ -52,6 +52,8 @@ class Events extends React.Component {
       .catch(error => console.error('error on deleteEvent', error));
   }
 
+  passEventToEdit = eventId => this.setState({ isEditing: true, editId: eventId });
+
   render() {
     const { events } = this.state;
     const eventItemComponents = events.map(event => (
@@ -63,8 +65,8 @@ class Events extends React.Component {
     ));
     return (
       <div className='events col'>
-        <h2>Events</h2>
         <EventForm onSubmit={this.formSubmitEvent} />
+        <h2>Events</h2>
         <div>{eventItemComponents}</div>
       </div>
     );
