@@ -24,12 +24,6 @@ class EventItem extends React.Component {
     passEventToEdit(event.id);
   }
 
-  listingClick = (e) => {
-    e.stopPropagation();
-    const { event, onSelect } = this.props;
-    onSelect(event.id);
-  }
-
   render() {
     const { event } = this.props;
     const uid = authRequests.getCurrentUid();
@@ -53,7 +47,7 @@ class EventItem extends React.Component {
     };
 
     return (
-      <div className="eventItem text-center mx-auto" onClick={this.eventClick}>
+      <div className="eventItem text-center mx-auto">
         <h3>{event.event}</h3>
         <h5>{event.startDate}</h5>
         <h5>{event.location}</h5>
