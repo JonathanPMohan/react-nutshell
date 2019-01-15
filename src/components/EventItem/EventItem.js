@@ -9,6 +9,7 @@ class EventItem extends React.Component {
   static propTypes = {
     event: eventShape.eventShape,
     deleteSingleEvent: PropTypes.func,
+    passEventToEdit: PropTypes.func,
   }
 
   deleteEvent = (e) => {
