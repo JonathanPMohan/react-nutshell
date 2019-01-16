@@ -5,18 +5,27 @@ import authRequests from '../helpers/data/authRequests';
 
 import './EventItem.scss';
 
+// Event Item Component //
+
 class EventItem extends React.Component {
+  // Prop Types For Event Item //
   static propTypes = {
+    // Event Shape Props //
     event: eventShape.eventShape,
+    // Delete Event Function Props //
     deleteSingleEvent: PropTypes.func,
+    // Edit Event Function Props //
     passEventToEdit: PropTypes.func,
   }
+
+  // Delete Event Function //
 
   deleteEvent = (e) => {
     e.preventDefault();
     const { deleteSingleEvent, event } = this.props;
     deleteSingleEvent(event.id);
   }
+  // Edit Event Function //
 
   editEvent = (e) => {
     e.preventDefault();
@@ -27,6 +36,8 @@ class EventItem extends React.Component {
   render() {
     const { event } = this.props;
     const uid = authRequests.getCurrentUid();
+
+    // Button Creator Function & Edit/Delete On Click //
 
     const makeButtons = () => {
       if (event.uid === uid) {
@@ -45,6 +56,8 @@ class EventItem extends React.Component {
       }
       return <span className="col-2"></span>;
     };
+
+    // Priting Event To Dom & Calling Create Button Function //
 
     return (
       <div className="eventItem text-center mx-auto">
