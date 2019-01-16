@@ -23,18 +23,34 @@ class Events extends React.Component {
   }
 
   formSubmitEvent = (newEvent) => {
-    eventRequests.postRequest(newEvent)
-      .then(() => {
-        const currentUid = authRequests.getCurrentUid();
-        smashRequests.getEventsFromMeAndFriends(currentUid)
-          .then((events) => {
-            this.setState({ events });
-          })
-          .catch((error) => {
-            console.error('error on getEventsFromMeAndFriends, error');
-          });
-      })
-      .catch(error => console.error('error on postRequest, error'));
+    const { isEditing, editId } = this.state;
+    if (isEditing) {
+      eventRequests.updateEvent(editId, newEvent)
+        .then(() => {
+          const currentUid = authRequests.getCurrentUid();
+          smashRequests.getEventsFromMeAndFriends(currentUid)
+            .then((events) => {
+              this.setState({ events, isEditing: false, editId: '-1' });
+            })
+            .catch((error) => {
+              console.error('error on getEventsFromMeAndFriends', error);
+            });
+        })
+        .catch(error => console.error('error on updateEvent', error));
+    } else {
+      eventRequests.postRequest(newEvent)
+        .then(() => {
+          const currentUid = authRequests.getCurrentUid();
+          smashRequests.getEventsFromMeAndFriends(currentUid)
+            .then((events) => {
+              this.setState({ events });
+            })
+            .catch((error) => {
+              console.error('error on getEventsFromMeAndFriends', error);
+            });
+        })
+        .catch(error => console.error('error on postRequest', error));
+    }
   }
 
   deleteEvent = (eventId) => {
@@ -52,19 +68,22 @@ class Events extends React.Component {
       .catch(error => console.error('error on deleteEvent', error));
   }
 
+  passEventToEdit = eventId => this.setState({ isEditing: true, editId: eventId });
+
   render() {
-    const { events } = this.state;
+    const { events, isEditing, editId } = this.state;
     const eventItemComponents = events.map(event => (
       <EventItem
         event={event}
         key={event.id}
         deleteSingleEvent={this.deleteEvent}
+        passEventToEdit={this.passEventToEdit}
       />
     ));
     return (
       <div className='events col'>
+        <EventForm onSubmit={this.formSubmitEvent} isEditing={isEditing} editId={editId} />
         <h2>Events</h2>
-        <EventForm onSubmit={this.formSubmitEvent} />
         <div>{eventItemComponents}</div>
       </div>
     );

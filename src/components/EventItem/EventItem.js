@@ -9,12 +9,19 @@ class EventItem extends React.Component {
   static propTypes = {
     event: eventShape.eventShape,
     deleteSingleEvent: PropTypes.func,
+    passEventToEdit: PropTypes.func,
   }
 
   deleteEvent = (e) => {
     e.preventDefault();
     const { deleteSingleEvent, event } = this.props;
     deleteSingleEvent(event.id);
+  }
+
+  editEvent = (e) => {
+    e.preventDefault();
+    const { passEventToEdit, event } = this.props;
+    passEventToEdit(event.id);
   }
 
   render() {
@@ -26,6 +33,9 @@ class EventItem extends React.Component {
         return (
           <div>
             <span className="col">
+              <button className="btn btn-default" onClick={this.editEvent}>
+                <i className="fas fa-pencil-alt fa-2x"></i>
+              </button>
               <button className="btn btn-default" onClick={this.deleteEvent}>
                 <i className="fas fa-trash-alt fa-2x"></i>
               </button>
