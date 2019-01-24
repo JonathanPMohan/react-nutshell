@@ -19,12 +19,16 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.scss';
 import authRequests from '../components/helpers/data/authRequests';
 
+// Public Route //
+
 const PublicRoute = ({ component: Component, authed, ...rest }) => {
   const routeChecker = props => (authed === false
     ? (<Component {...props} />)
     : (<Redirect to={{ pathname: '/home', state: { from: props.location } }} />));
   return <Route {...rest} render={props => routeChecker(props)} />;
 };
+
+// Private Route //
 
 const PrivateRoute = ({ component: Component, authed, ...rest }) => {
   const routeChecker = props => (authed === true
@@ -33,6 +37,7 @@ const PrivateRoute = ({ component: Component, authed, ...rest }) => {
   return <Route {...rest} render={props => routeChecker(props)} />;
 };
 
+// App Begins //
 
 class App extends React.Component {
   state = {
@@ -40,6 +45,8 @@ class App extends React.Component {
     currentUid: '',
     pendingUser: true,
   }
+
+  // Auth Checker //
 
   componentDidMount() {
     connection();
@@ -57,6 +64,8 @@ class App extends React.Component {
     this.removeListener();
   }
 
+  // Logout User Click Event //
+
   logoutClickEvent = () => {
     authRequests.logoutUser();
     this.setState({ authed: false, currentUid: '' });
@@ -70,6 +79,8 @@ class App extends React.Component {
     if (pendingUser) {
       return null;
     }
+
+    // Routing //
 
     return (
       <div className="App">
